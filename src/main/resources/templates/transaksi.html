@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manajemen Transaksi</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}" />
+    <link rel="stylesheet" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" th:href="@{/css/pelanggan.css}" />
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="header-bar">
+
+    <div>
+        <a th:href="@{/pelanggan}" class="btn">Pelanggan Page</a>
+        <a th:href="@{/atasan}" class="btn">Atasan Page</a>
+        <a th:href="@{/bawahan}" class="btn">Bawahan Page</a>
+        <a th:href="@{/luaran}" class="btn">Luaran Page</a>
+        <a th:href="@{/transaksi}" class="btn">Transaksi Page</a>
+        <a th:href="@{/logout}" class="btn btn-logout">Logout</a>
+    </div>
+</div>
+
+<h1 style="text-align:center; margin-top:20px;">Manajemen Transaksi</h1>
+
+<div class="container">
+
+    <!-- Tabel Daftar Transaksi -->
+    <div class="card">
+        <h3>Daftar Transaksi</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Transaksi</th>
+                    <th>ID Pakaian</th>
+                    <th>Pelanggan</th>
+                    <th>Jumlah</th>
+                    <th>Harga Jual</th>
+                    <th>Tanggal</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody th:each="t, stat : ${transaksiList}">
+                <tr>
+                    <td th:text="${t.idTransaksi}"></td>
+                    <td th:text="${t.objPakaian.id}"></td>
+                    <td th:text="${t.objPelanggan.noHP}"></td>
+                    <td th:text="${t.jumlah}"></td>
+                    <td th:text="${t.hargaJual}"></td>
+                    <td th:text="${t.tanggal}"></td>
+                    <td>
+                        <a th:href="@{|/transaksi/edit/${t.idTransaksi}|}">Edit</a> |
+                        <a th:href="@{|/transaksi/delete/${t.idTransaksi}|}" 
+                           onclick="return confirm('Yakin ingin hapus transaksi ini?')">Hapus</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Form Input / Edit Transaksi -->
+    <div class="card">
+        <h3>Tambah / Edit Transaksi</h3>
+        <form th:action="@{/transaksi/submit}" th:object="${transaksiRec}" method="post">
+
+            <!-- Hidden field untuk ID -->
+            <input type="hidden" th:field="*{idTransaksi}" />
+
+            <label for="objPakaian">Pilih Pakaian</label>
+            <select id="objPakaian" th:field="*{objPakaian}" required>
+                <option th:each="p : ${pakaianList}" th:value="${p.id}" 
+                        th:text="${p.id + ' | ' + p.brand + ' | ' + p.warna + ' | ' + p.ukuran + ' | ' + p.deskripsi}"></option>
+            </select>
+
+            <label for="objPelanggan">Pilih Pelanggan</label>
+            <select id="objPelanggan" th:field="*{objPelanggan}" required>
+                <option th:each="c : ${pelangganList}" th:value="${c.noHP}" 
+                        th:text="${c.noHP + ' | ' + c.email}"></option>
+            </select>
+
+            <label for="jumlah">Jumlah</label>
+            <input type="number" id="jumlah" th:field="*{jumlah}" required />
+
+            <label for="hargaJual">Harga Jual</label>
+            <input type="number" id="hargaJual" th:field="*{hargaJual}" required />
+
+            <label for="tanggal">Tanggal</label>
+            <input type="date" id="tanggal" th:field="*{tanggal}" required />
+
+            <button type="submit">Simpan</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Atasan</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+    <link rel="stylesheet" th:href="@{/css/pakaian.css}" />
+    
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="header-bar">
+    <div>
+<a th:href="@{/pelanggan}" class="btn">Pelanggan Page</a>
+<a th:href="@{/atasan}" class="btn">Atasan Page</a>
+<a th:href="@{/bawahan}" class="btn">Bawahan Page</a>
+<a th:href="@{/luaran}" class="btn">Luaran Page</a>
+<a th:href="@{/transaksi}" class="btn">Transaksi Page</a>
+<a th:href="@{/logout}" class="btn btn-logout">Logout</a>
+
+    </div>
+</div>
+
+<h1 style="text-align:center; margin-top:20px;">Manajemen Atasan</h1>
+<div class="container">
+
+    <!-- Form Input Atasan -->
+    <div class="card">
+        <h2 th:text="${atasanRec.id} != null ? 'Edit Atasan' : 'Tambah Atasan'"></h2>
+        <form th:action="@{/atasan/submit}" th:object="${atasanRec}" method="post">
+            <input type="hidden" th:field="*{id}" />
+
+            <label>Ukuran</label>
+            <input type="text" th:field="*{ukuran}" required />
+
+            <label>Warna</label>
+            <input type="text" th:field="*{warna}" required />
+
+            <label>Brand</label>
+            <input type="text" th:field="*{brand}" required />
+
+            <label>Bahan</label>
+            <input type="text" th:field="*{bahan}" required />
+
+            <label>Jenis Lengan</label>
+            <input type="text" th:field="*{jenisLengan}" required />
+
+            <button type="submit">Simpan</button>
+        </form>
+    </div>
+
+    <!-- Daftar Atasan -->
+    <div class="card">
+        <h2>Daftar Atasan</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Ukuran</th>
+                    <th>Warna</th>
+                    <th>Brand</th>
+                    <th>Bahan</th>
+                    <th>Jenis Lengan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody th:each="a, stat : ${atasanList}">
+                <tr>
+                    <td th:text="${stat.count}"></td>
+                    <td th:text="${a.ukuran}"></td>
+                    <td th:text="${a.warna}"></td>
+                    <td th:text="${a.brand}"></td>
+                    <td th:text="${a.bahan}"></td>
+                    <td th:text="${a.jenisLengan}"></td>
+                    <td>
+                        <a th:href="@{|/atasan/edit/${a.id}|}">Edit</a> |
+                        <a th:href="@{|/atasan/delete/${a.id}|}" onclick="return confirm('Yakin ingin hapus?')">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

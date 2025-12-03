@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Pelanggan</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}" />
+    <link rel="stylesheet" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" th:href="@{/css/pelanggan.css}" />
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="header-bar">
+    <div>
+<a th:href="@{/pelanggan}" class="btn">Pelanggan Page</a>
+<a th:href="@{/atasan}" class="btn">Atasan Page</a>
+<a th:href="@{/bawahan}" class="btn">Bawahan Page</a>
+<a th:href="@{/luaran}" class="btn">Luaran Page</a>
+<a th:href="@{/transaksi}" class="btn">Transaksi Page</a>
+<a th:href="@{/logout}" class="btn btn-logout">Logout</a>
+
+    </div>
+</div>
+
+<h1 style="text-align:center; margin-top:20px;">Manajemen Pelanggan</h1>
+
+<div class="container">
+    <!-- Daftar Pelanggan -->
+    <div class="card">
+        <h3>Daftar Pelanggan</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>No HP</th>
+                    <th>Email</th>
+                    <th>Membership</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody th:each="p, stat : ${pelangganList}">
+                <tr>
+                    <td th:text="${p.noHP}"></td>
+                    <td th:text="${p.email}"></td>
+                    <td th:text="${p.membership} ? 'Ya' : 'Tidak'"></td>
+                    <td>
+                        <a th:href="@{|/pelanggan/edit/${p.noHP}|}">Edit</a> |
+                        <a th:href="@{|/pelanggan/delete/${p.noHP}|}"
+                           onclick="return confirm('Yakin ingin hapus pelanggan ini?')">Hapus</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Form Input Pelanggan -->
+    <div class="card">
+        <h3>Tambah / Edit Pelanggan</h3>
+        <form th:action="@{/pelanggan/submit}" th:object="${pelangganRec}" method="post">
+            <label for="noHP">No HP</label>
+            <input type="number" id="noHP" name="noHP" th:value="${pelangganRec.noHP}" required/>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" th:value="${pelangganRec.email}" required/>
+
+            <label for="membership">Membership</label>
+            <select id="membership" name="membership">
+                <option th:value="true" th:selected="${pelangganRec.membership}">Ya</option>
+                <option th:value="false" th:selected="${!pelangganRec.membership}">Tidak</option>
+            </select>
+
+            <button type="submit">Tambah / Update</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

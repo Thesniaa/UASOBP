@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Bawahan</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+    <link rel="stylesheet" th:href="@{/css/pakaian.css}" />
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="header-bar">
+    <div>
+        <a th:href="@{/pelanggan}" class="btn">Pelanggan Page</a>
+        <a th:href="@{/atasan}" class="btn">Atasan Page</a>
+        <a th:href="@{/bawahan}" class="btn">Bawahan Page</a>
+        <a th:href="@{/luaran}" class="btn">Luaran Page</a>
+        <a th:href="@{/transaksi}" class="btn">Transaksi Page</a>
+        <a th:href="@{/logout}" class="btn btn-logout">Logout</a>
+    </div>
+</div>
+
+<h1 style="text-align:center; margin-top:20px;">Manajemen Bawahan</h1>
+<div class="container">
+
+    <!-- Form Input Bawahan -->
+    <div class="card">
+        <h2 th:text="${bawahanRec.id} != null ? 'Edit Bawahan' : 'Tambah Bawahan'"></h2>
+        <form th:action="@{/bawahan/submit}" th:object="${bawahanRec}" method="post">
+            <input type="hidden" th:field="*{id}" />
+
+            <label>Ukuran</label>
+            <input type="text" th:field="*{ukuran}" required />
+
+            <label>Warna</label>
+            <input type="text" th:field="*{warna}" required />
+
+            <label>Brand</label>
+            <input type="text" th:field="*{brand}" required />
+
+            <label>Bahan</label>
+            <input type="text" th:field="*{bahan}" required />
+
+            <label>Waist Type</label>
+            <input type="text" th:field="*{waistType}" required />
+
+            <button type="submit">Simpan</button>
+        </form>
+    </div>
+
+    <!-- Daftar Bawahan -->
+    <div class="card">
+        <h2>Daftar Bawahan</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Ukuran</th>
+                    <th>Warna</th>
+                    <th>Brand</th>
+                    <th>Bahan</th>
+                    <th>Waist Type</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody th:each="b, stat : ${bawahanList}">
+                <tr>
+                    <td th:text="${stat.count}"></td>
+                    <td th:text="${b.ukuran}"></td>
+                    <td th:text="${b.warna}"></td>
+                    <td th:text="${b.brand}"></td>
+                    <td th:text="${b.bahan}"></td>
+                    <td th:text="${b.waistType}"></td>
+                    <td>
+                        <a th:href="@{|/bawahan/edit/${b.id}|}">Edit</a> |
+                        <a th:href="@{|/bawahan/delete/${b.id}|}" onclick="return confirm('Yakin ingin hapus?')">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

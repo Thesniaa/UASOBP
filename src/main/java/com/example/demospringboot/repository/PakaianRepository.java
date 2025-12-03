@@ -1,0 +1,6 @@
+package com.example.demospringboot.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.demospringboot.entity.Pakaian;
+
+public interface PakaianRepository extends JpaRepository<Pakaian, Long> {}
